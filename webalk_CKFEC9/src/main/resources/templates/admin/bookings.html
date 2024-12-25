@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Összes Foglalás</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Összes Foglalás</h2>
+                <table class="table table-striped align-middle">
+                    <thead>
+                    <tr>
+                        <th>Azonosító</th>
+                        <th>Foglalás Dátuma</th>
+                        <th>Szálloda</th>
+                        <th>Ügyfél</th>
+                        <th>Teljes Ár</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="align-middle" th:each="booking : ${bookings}">
+                        <td th:text="${booking.id}"></td>
+                        <td th:text="${booking.bookingDate}"></td>
+                        <td th:text="${booking.hotelName}"></td>
+                        <td th:text="${booking.customerEmail}"></td>
+                        <td th:text="'Ft ' + ${#numbers.formatDecimal(booking.totalPrice, 0, 'COMMA', 2, 'POINT')}"></td>
+                        <td>
+                            <a th:href="@{/admin/bookings/{id}(id=${booking.id})}" class="btn btn-primary btn-sm">Részletek</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

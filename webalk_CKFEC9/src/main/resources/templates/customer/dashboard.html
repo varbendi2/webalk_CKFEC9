@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Ügyfélműszerfal</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Fejlesztés alatt</h5>
+                        <p class="card-text">Az ügyfélműszerfal hamarosan elérhető lesz. Kérjük, látogasson vissza később.</p>
+                        <a th:href="@{/customer/bookings}" class="btn btn-primary">Foglalások megtekintése</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

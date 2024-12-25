@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Fiók Részletei</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!-- Sikeres Frissítés Értesítése -->
+                <div th:if="${param.success}">
+                    <div class="alert alert-success">A felhasználói adatok sikeresen frissítve.</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Felhasználói Fiók Részletei</h2>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <!-- Email -->
+                            <div class="form-group mb-3 row">
+                                <label class="col-sm-3 col-form-label fw-bold" for="username">Email:</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control-plaintext" id="username" readonly type="text"
+                                           th:value="${user.username}">
+                                </div>
+                            </div>
+                            <!-- Keresztnév -->
+                            <div class="form-group mb-3 row">
+                                <label class="col-sm-3 col-form-label fw-bold" for="name">Keresztnév:</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control-plaintext" id="name" readonly type="text"
+                                           th:value="${user.name}">
+                                </div>
+                            </div>
+                            <!-- Vezetéknév -->
+                            <div class="form-group mb-3 row">
+                                <label class="col-sm-3 col-form-label fw-bold" for="lastName">Vezetéknév:</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control-plaintext" id="lastName" readonly type="text"
+                                           th:value="${user.lastName}">
+                                </div>
+                            </div>
+                            <!-- Szerkesztés Gomb -->
+                            <div class="form-group mb-3">
+                                <a th:href="@{/customer/account/edit}" class="btn btn-primary">Felhasználói Adatok Szerkesztése</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

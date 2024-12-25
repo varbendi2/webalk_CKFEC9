@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Adminisztrátori Irányítópult</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <!-- Felhasználók listája -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people-fill fs-1"></i>
+                        <h5 class="card-title">Felhasználók listája</h5>
+                        <a th:href="@{/admin/users}" class="btn btn-primary">Megnyitás</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Szállodák listája -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-building fs-1"></i>
+                        <h5 class="card-title">Szállodák listája</h5>
+                        <a th:href="@{/admin/hotels}" class="btn btn-primary">Megnyitás</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Foglalások listája -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-bookmark-check fs-1"></i>
+                        <h5 class="card-title">Foglalások listája</h5>
+                        <a th:href="@{/admin/bookings}" class="btn btn-primary">Megnyitás</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

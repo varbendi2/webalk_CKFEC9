@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Foglalási Részletek</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Foglalási Részletek</h2>
+                    </div>
+                    <div class="card-body">
+                        <h5>Visszaigazolási szám:</h5>
+                        <p class="mb-3" th:text="${bookingDTO.confirmationNumber}"></p>
+                        <hr>
+                        <h3 class="mb-2" th:text="${bookingDTO.hotelName}">Szálloda</h3>
+                        <p class="small mb-4" th:text="${bookingDTO.hotelAddress.addressLine + ', ' + bookingDTO.hotelAddress.city + ', ' + bookingDTO.hotelAddress.country}"></p>
+                        <div class="row text-center my-5">
+                            <div class="col-md-4">
+                                <h5>Bejelentkezés</h5>
+                                <p th:text="${bookingDTO.checkinDate}"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Kijelentkezés</h5>
+                                <p th:text="${bookingDTO.checkoutDate}"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Időtartam</h5>
+                                <p th:text="${days} + ' éjszaka'"></p>
+                            </div>
+                        </div>
+                        <h5>Szobák:</h5>
+                        <ul class="mb-3">
+                            <li th:each="room : ${bookingDTO.roomSelections}">
+                                <span th:text="${room.count}"></span> x <span th:text="${room.roomType}"></span>
+                            </li>
+                        </ul>
+                        <hr>
+                        <h3>Teljes Ár:</h3>
+                        <p class="mb-3" th:text="'Ft ' + ${#numbers.formatDecimal(bookingDTO.totalPrice, 1, 'COMMA', 2, 'POINT')}"></p>
+                        <h5 class="small">Fizetési mód:</h5>
+                        <p class="small mb-3" th:text="${bookingDTO.paymentMethod}"></p>
+                        <hr>
+                        <h5>Vendég Adatok:</h5>
+                        <p class="mb-2">Név: <span th:text="${bookingDTO.customerName}"></span></p>
+                        <p class="mb-3">Email: <span th:text="${bookingDTO.customerEmail}"></span></p>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <a href="/customer/bookings" class="btn btn-primary">Vissza a Foglalásokhoz</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Felhasználói Fiók Szerkesztése</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Fiók Szerkesztése</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" th:action="@{/customer/account/edit}" th:object="${user}">
+                            <!-- Email mező -->
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="username">Email:</label>
+                                <input class="form-control" id="username" type="email" th:field="*{username}"
+                                       placeholder="Adja meg az email címét">
+                                <p class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                            </div>
+                            <!-- Keresztnév mező -->
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="name">Keresztnév:</label>
+                                <input class="form-control" id="name" type="text" th:field="*{name}"
+                                       placeholder="Adja meg a keresztnevét">
+                                <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                            </div>
+                            <!-- Vezetéknév mező -->
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="lastName">Vezetéknév:</label>
+                                <input class="form-control" id="lastName" type="text" th:field="*{lastName}"
+                                       placeholder="Adja meg a vezetéknevét">
+                                <p class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+                            </div>
+                            <!-- Jelszóváltás -->
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="password">Új Jelszó:</label>
+                                <input class="form-control" id="password" type="password" th:field="*{password}"
+                                       placeholder="Adja meg az új jelszót">
+                                <p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="confirmPassword">Jelszó Megerősítése:</label>
+                                <input class="form-control" id="confirmPassword" type="password" th:field="*{confirmPassword}"
+                                       placeholder="Erősítse meg az új jelszót">
+                                <p class="text-danger" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
+                            </div>
+                            <!-- Gombok -->
+                            <div class="form-group mb-3">
+                                <button type="submit" class="btn btn-primary">Frissítés</button>
+                                <a th:href="@{/customer/account}" class="btn btn-secondary">Mégse</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

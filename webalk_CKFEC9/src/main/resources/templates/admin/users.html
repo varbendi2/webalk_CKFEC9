@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Felhasználói Lista</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Felhasználói Lista</h2>
+                <div th:if="${param.success}">
+                    <div class="alert alert-success">
+                        A felhasználó (ID: <span th:text="${updatedUserId}"></span>) adatai sikeresen frissítve lettek
+                    </div>
+                </div>
+                <table class="table table-striped align-middle">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Keresztnév</th>
+                        <th>Vezetéknév</th>
+                        <th>Szerepkör</th>
+                        <th>Szerkesztés</th>
+                        <th>Törlés</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="align-middle" th:each="user : ${users}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.role.roleType.name()}"></td>
+                        <td>
+                            <a th:href="@{/admin/users/edit/{id}(id=${user.id})}">Szerkesztés</a>
+                        </td>
+                        <td>
+                            <form method="post" th:if="${user.role.roleType.name() != 'ADMIN'}"
+                                  th:action="@{/admin/users/delete/{id}(id=${user.id})}"
+                                  onsubmit="return confirm('Biztosan törölni szeretné ezt a felhasználót?');">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <button type="submit" class="btn btn-danger btn-sm">Törlés</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

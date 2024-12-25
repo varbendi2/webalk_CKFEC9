@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Regisztrációs oldal</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Szállodai Menedzser Regisztráció</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" th:action="@{/register/manager}" th:object="${user}">
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="username">E-mail:</label>
+                                <input class="form-control" id="username" type="email" th:field="*{username}"
+                                       placeholder="Adja meg az e-mail címét" autofocus>
+                                <p class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="password">Jelszó:</label>
+                                <input class="form-control" id="password" type="password" th:field="*{password}"
+                                       placeholder="Adja meg a jelszavát">
+                                <p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="name">Keresztnév:</label>
+                                <input class="form-control" id="name" type="text" th:field="*{name}"
+                                       placeholder="Adja meg a keresztnevét">
+                                <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="lastName">Vezetéknév:</label>
+                                <input class="form-control" id="lastName" type="text" th:field="*{lastName}"
+                                       placeholder="Adja meg a vezetéknevét">
+                                <p class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+                            </div>
+                            <div class="form-group mb-3">
+                                <button type="submit" class="btn btn-primary">Regisztráció</button>
+                                <span>Már regisztrált? <a th:href="@{/login}">Jelentkezzen be itt</a></span>
+                            </div>
+                            <div class="alert alert-success" th:if="${param.success}">
+                                Sikeres regisztráció!
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

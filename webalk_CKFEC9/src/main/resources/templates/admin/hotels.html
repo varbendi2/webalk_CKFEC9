@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Szállodák listája</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Szállodák listája</h2>
+                <div th:if="${param.success}">
+                    <div class="alert alert-success">
+                        A szálloda (ID: <span th:text="${updatedHotelId}"></span>) adatai sikeresen frissítve lettek.
+                    </div>
+                </div>
+                <table class="table table-striped align-middle">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Név</th>
+                        <th>Szállodavezető</th>
+                        <th>Szerkesztés</th>
+                        <th>Törlés</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="align-middle" th:each="hotel : ${hotels}">
+                        <td th:text="${hotel.id}"></td>
+                        <td th:text="${hotel.name}"></td>
+                        <td th:text="${hotel.managerUsername}"></td>
+                        <td>
+                            <a th:href="@{/admin/hotels/edit/{id}(id=${hotel.id})}">Szerkesztés</a>
+                        </td>
+                        <td>
+                            <form method="post"
+                                  th:action="@{/admin/hotels/delete/{id}(id=${hotel.id})}"
+                                  onsubmit="return confirm('Biztosan törölni szeretné ezt a szállodát?');">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <button type="submit" class="btn btn-danger btn-sm">Törlés</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

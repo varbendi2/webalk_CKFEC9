@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Szállodakeresés</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="mb-3">
+                    <img class="img-fluid rounded" src="/img/map-banner.jpg" alt="Térkép banner">
+                </div>
+                <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Szállodák keresése</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" th:action="@{/search}" th:object="${hotelSearchDTO}">
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="city">Város:</label>
+                                <input class="form-control" id="city" type="text" th:field="*{city}"
+                                       placeholder="Adja meg a várost" autofocus>
+                                <p class="text-danger" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></p>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="checkinDate">Bejelentkezés dátuma:</label>
+                                <input class="form-control" id="checkinDate" type="text" th:field="*{checkinDate}">
+                                <p class="text-danger" th:if="${#fields.hasErrors('checkinDate')}" th:errors="*{checkinDate}"></p>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="checkoutDate">Kijelentkezés dátuma:</label>
+                                <input class="form-control" id="checkoutDate" type="text" th:field="*{checkoutDate}">
+                                <p class="text-danger" th:if="${#fields.hasErrors('checkoutDate')}" th:errors="*{checkoutDate}"></p>
+                            </div>
+                            <div class="form-group mb-3">
+                                <button type="submit" class="btn btn-primary">Keresés</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="additional-scripts">
+    <script>
+        $(document).ready(function () {
+            const displayFormat = "dd.mm.yy";
+            const submitFormat = "yy-mm-dd"; // Formátum, amit a Spring Boot elvár a LocalDate mezőkhöz
+
+            // Érvénytelen karakterek tiltása a város mezőben
+            $("#city").on("input", function () {
+                var value = $(this).val();
+                var filteredValue = value.replace(/[^A-Za-z\s'-]/g, "");
+                $(this).val(filteredValue);
+            });
+
+            // Bejelentkezési dátum inicializálása
+            $("#checkinDate").datepicker({
+                dateFormat: displayFormat,
+                minDate: 0,
+                onClose: function (selectedDate) {
+                    if (selectedDate) {
+                        var checkoutMinDate = $.datepicker.parseDate(displayFormat, selectedDate);
+                        checkoutMinDate.setDate(checkoutMinDate.getDate() + 1); // Minimum 1 nappal később
+                        $("#checkoutDate").datepicker("option", "minDate", checkoutMinDate);
+                    }
+                }
+            }).attr('readonly', 'readonly');
+
+            // Kijelentkezési dátum inicializálása
+            $("#checkoutDate").datepicker({
+                dateFormat: displayFormat,
+                minDate: +1
+            }).attr('readonly', 'readonly');
+
+            // Dátumok újraformázása elküldéskor
+            $("form").on("submit", function () {
+                var checkinDate = $('#checkinDate').datepicker('getDate');
+                var checkoutDate = $('#checkoutDate').datepicker('getDate');
+                $('#checkinDate').val($.datepicker.formatDate(submitFormat, checkinDate));
+                $('#checkoutDate').val($.datepicker.formatDate(submitFormat, checkoutDate));
+            });
+
+            // Helykitöltő szövegek
+            $("#checkinDate, #checkoutDate").each(function () {
+                $(this).attr("placeholder", "Válasszon dátumot");
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>

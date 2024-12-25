@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Fizetés Befejezése</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <i class="bi bi-check-circle-fill text-primary"></i> <span class="text-primary">Az Ön választása</span>
+            </div>
+            <div class="col-md-6 text-center">
+                <i class="bi bi-check-circle text-primary"></i> <span class="text-primary">Adatok kitöltése</span>
+            </div>
+        </div>
+        <hr>
+        <!-- Foglalási részletek -->
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Szálloda adatai -->
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <p><strong th:text="${hotelDTO.name}">Szálloda neve</strong></p>
+                        <p th:text="${hotelDTO.addressDTO.getAddressLine()}">Cím</p>
+                        <p th:text="${hotelDTO.addressDTO.city + ', ' + hotelDTO.addressDTO.country}">Város, Ország</p>
+                    </div>
+                </div>
+                <!-- Bejelentkezés, kijelentkezés és tartózkodás -->
+                <div class="card mb-2">
+                    <div class="row card-body">
+                        <div class="col">
+                            <p><strong>Bejelentkezés</strong></p>
+                            <p th:text="${bookingInitiationDTO.checkinDate}"></p>
+                        </div>
+                        <div class="col">
+                            <p><strong>Kijelentkezés</strong></p>
+                            <p th:text="${bookingInitiationDTO.checkoutDate}"></p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Tartózkodás időtartama:</strong></p>
+                        <p><span th:text="${bookingInitiationDTO.durationDays}">0</span> éjszaka</p>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Kiválasztott szobák:</strong></p>
+                        <div th:each="roomSelection : ${bookingInitiationDTO.roomSelections}"
+                             th:if="${roomSelection.count > 0}">
+                            <p th:text="${roomSelection.count + ' x ' + roomSelection.roomType}">0 x Szoba</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Ár és fizetési űrlap -->
+            <div class="col-md-8">
+                <!-- Árinformáció -->
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h4><strong>Teljes ár:</strong></h4>
+                        <h4 th:utext="'Ft ' + ${#numbers.formatDecimal(bookingInitiationDTO.totalPrice, 0, 'COMMA', 2, 'POINT')}">0 Ft</h4>
+                    </div>
+                </div>
+                <!-- Fizetési űrlap -->
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <form action="/booking/payment" method="post" th:object="${paymentCardDTO}">
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="cardholderName">Kártyabirtokos neve</label>
+                                <input class="form-control" id="cardholderName" type="text" th:field="*{cardholderName}"
+                                       required>
+                                <p class="text-danger" th:if="${#fields.hasErrors('cardholderName')}"
+                                   th:errors="*{cardholderName}"></p>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="cardNumber">Kártyaszám</label>
+                                <input class="form-control" id="cardNumber" type="text" th:field="*{cardNumber}" required>
+                                <p class="text-danger" th:if="${#fields.hasErrors('cardNumber')}" th:errors="*{cardNumber}"></p>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <div class="col-6">
+                                    <label class="form-label" for="expirationDate">Lejárati dátum</label>
+                                    <input class="form-control" id="expirationDate" type="text" th:field="*{expirationDate}"
+                                           placeholder="HH/ÉÉ" required>
+                                    <p class="text-danger" th:if="${#fields.hasErrors('expirationDate')}"
+                                       th:errors="*{expirationDate}"></p>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label" for="cvc">CVC</label>
+                                    <input class="form-control" id="cvc" type="text" th:field="*{cvc}" required>
+                                    <p class="text-danger" th:if="${#fields.hasErrors('cvc')}" th:errors="*{cvc}"></p>
+                                </div>
+                            </div>
+
+                            <div class="form-group text-end">
+                                <button type="submit" class="btn btn-primary">Foglalás befejezése</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="additional-scripts">
+    <script>
+        document.getElementById('cardholderName').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); // Csak betűk és szóközök engedélyezése
+        });
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '').slice(0, 16); // Csak számok, max 16 karakter
+        });
+        document.getElementById('cvc').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '').slice(0, 3); // Csak számok, max 3 karakter
+        });
+        document.getElementById('expirationDate').addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, ''); // Csak számok
+            if (value.length > 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4); // '/' beillesztése
+            }
+            this.value = value.slice(0, 5); // Max 5 karakter, beleértve a '/'
+        });
+    </script>
+</th:block>
+</body>
+</html>
