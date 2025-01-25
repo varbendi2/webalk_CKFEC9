@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+h2 {
+    color: #333;
+}
+.login-container, .product-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+table th {
+    background-color: #f4f4f4;
+}
+form div {
+    margin-bottom: 10px;
+}
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+form input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+button {
+    background-color: #5cb85c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #4cae4c;
+}

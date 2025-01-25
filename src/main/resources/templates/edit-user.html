@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Felhasználó szerkesztése</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">Felhasználó szerkesztése</h2>
+    <form method="post" th:action="@{'/admin/edit-user/' + ${user.id}}">
+        <div class="mb-3">
+            <label for="username" class="form-label">Felhasználónév</label>
+            <input type="text" class="form-control" id="username" name="username" th:value="${user.username}" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Jelszó</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank to keep current password">
+        </div>
+        <div class="mb-3">
+            <label for="role" class="form-label">Szerep</label>
+            <select class="form-control" id="role" name="roleId" required>
+                <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}" th:selected="${role.id == user.role.id}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Változtatások mentése</button>
+        <a href="/admin/dashboard" class="btn btn-secondary">Mégse</a>
+    </form>
+</div>
+</body>
+</html>

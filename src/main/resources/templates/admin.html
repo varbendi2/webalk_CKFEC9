@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Adminisztrátori irányítópult</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">Adminisztrátori irányítópult</h2>
+
+    <div class="my-4">
+        <h4>Felhasználók kezelése</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Azonosító</th>
+                    <th>Felhasználónév</th>
+                    <th>Szerep</th>
+                    <th>Műveletek</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.role.name}"></td>
+                    <td>
+                        <a th:href="@{/admin/edit-user/{id}(id=${user.id})}" class="btn btn-warning btn-sm">Szerkesztés</a>
+                        <a th:href="@{/admin/delete-user/{id}(id=${user.id})}" class="btn btn-danger btn-sm">Törlés</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="/admin/add-user" class="btn btn-primary">Új felhasználó hozzáadása</a>
+    </div>
+</div>
+</body>
+</html>
